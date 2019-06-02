@@ -1,0 +1,71 @@
+﻿<Window x:Class="MisProjekat.Forms.BlagajnikForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MisProjekat"
+             xmlns:model="clr-namespace:MisProjekat.Model"
+             mc:Ignorable="d" Width="450" Height="700">
+    <StackPanel Margin="10">
+        <TextBlock FontWeight="Bold">Prodaja karata po rezervaciji</TextBlock>
+        <Label>Korisnik:</Label>
+        <WrapPanel Orientation="Horizontal">
+            <TextBox Name="UsernameText" Margin="0,5" Width="200" KeyUp="UsernameText_OnKeyUp"/>
+            <Button Click="NadjiKorisnikaClick" Margin="5">Nađi korisnika</Button>
+        </WrapPanel>
+        <WrapPanel Orientation="Horizontal">
+            <Label>Popust: </Label>
+            <ComboBox Name="PopustComboBox" SelectionChanged="RekalkulisiCenu">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="model:Popust">
+                        <TextBlock Text="{Binding Naziv}"></TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </WrapPanel>
+        <ListView Name="RezervacijeListView" SelectionMode="Multiple" SelectionChanged="RekalkulisiCenu">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="model:Rezervacija">
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Izvodjenje.Predstava.Naziv}" Margin="5"/>
+                        <TextBlock Text="{Binding Path=Izvodjenje.Vreme, StringFormat={}{0:dd. MMMM yyyy, H:mm}}" Margin="5"/>
+                        <TextBlock Text="{Binding Path=Sediste}" Margin="5"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <TextBlock Name="UkupnoTextBlock"/>
+        <Button Click="StampajClick" Margin="0,5">Štampaj</Button>
+        
+        <Separator/>
+
+        <TextBlock FontWeight="Bold">Prodaja karata bez rezervacije</TextBlock>
+
+        <ListView Name="IzvodjenjaListView" SelectionChanged="IzvodjenjaListView_OnSelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="model:Izvodjenje">
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Predstava.Naziv}" Margin="5"/>
+                        <TextBlock Text="{Binding Path=Vreme, StringFormat={}{0:dd. MMMM yyyy, H:mm}}" Margin="5"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <TextBlock>Slobodna sedišta: </TextBlock>
+        <ListView Name="SedistaListView" SelectionMode="Multiple" SelectionChanged="RekalkulisiKartaCenu"/>
+
+        <TextBlock>Popust:</TextBlock>
+        <ComboBox Name="PopustKartaComboBox" SelectionChanged="RekalkulisiKartaCenu">
+            <ComboBox.ItemTemplate>
+                <DataTemplate DataType="model:Popust">
+                    <TextBlock Text="{Binding Naziv}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+
+        <TextBlock Name="UkupnoKartaTextBlock"/>
+        <Button Click="StampajKartaClick" Margin="0,5">Štampaj</Button>
+    </StackPanel>
+</Window>

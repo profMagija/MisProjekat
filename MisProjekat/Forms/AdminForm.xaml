@@ -1,0 +1,34 @@
+﻿<Window x:Class="MisProjekat.Forms.AdminForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MisProjekat"
+             xmlns:model="clr-namespace:MisProjekat.Model"
+             mc:Ignorable="d" Width="460" Height="700">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Novo">
+                <MenuItem Click="NapraviBlagajnikaClick" Header="_Blagajnik"/>
+                <MenuItem Click="NapraviPredstavuClick" Header="_Predstava"/>
+            </MenuItem>
+            <MenuItem Header="_Logout" Click="LogoutClick"/>
+        </Menu>
+        <ListView Name="PredstaveListView">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="model:Predstava">
+                    <StackPanel>
+                        <TextBox Text="{Binding Naziv}" FontWeight="Bold" Width="430"/>
+                        <TextBox Text="{Binding Opis}" AcceptsReturn="True" AcceptsTab="True" Width="430"/>
+                        <DataGrid ItemsSource="{Binding Izvodjenja}" AddingNewItem="DataGrid_OnAddingNewItem" AutoGenerateColumns="False" Width="430">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Vreme" Binding="{Binding Vreme}"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Cena Karte" Binding="{Binding CenaKarte}"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </DockPanel>
+</Window>
